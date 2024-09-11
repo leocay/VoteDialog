@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using CommunityToolkit.Mvvm.Input;
+using System.Collections.ObjectModel;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -18,10 +19,8 @@ namespace VoteDialog
     public partial class MainWindow : Window
     {
         public ObservableCollection<Item> Items { get; set; }
-        public class Item
-        {
-            public string Text { get; set; }
-        }
+
+
 
         public MainWindow()
         {
@@ -29,34 +28,30 @@ namespace VoteDialog
  
 
             Items = new ObservableCollection<Item>
-            {
-                new Item { Text = "Lựa chọn 1" },
-                new Item { Text = "Lựa chọn 2" },
-            };
+        {
+            new Item { Hint = "Lựa chọn 1", CanDelete = Visibility.Collapsed },
+            new Item { Hint = "Lựa chọn 2", CanDelete = Visibility.Collapsed },
+        };
 
             // Gán DataContext cho cửa sổ
             DataContext = this;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+
+        [RelayCommand]
+        private void AddOption()
         {
-            //// Kiểm tra xem cột 2 có đang hiển thị không
-            //if (OptionColumn.Width.Value > 0)
-            //{
-            //    // Ẩn cột 2 bằng cách đặt Width là 0
-            //    OptionColumn.Width = new GridLength(0);
-            //}
-            //else
-            //{
-            //    // Hiển thị lại cột 2 bằng cách đặt Width là *
-            //    OptionColumn.Width = new GridLength(1, GridUnitType.Star);
-            //}
+            Items?.Add(new Item { Hint = $"Lựa chọn {Items.Count + 1}", CanDelete = Visibility.Visible, DeleteCommand = DeleteOptionCommand });
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        [RelayCommand]
+        private void DeleteOption(Item option)
         {
-            Items.Add(new Item { Text = $"Lựa chọn {Items.Count + 1}" });
-            this.SizeToContent = SizeToContent.Height;
+            if (Items.Contains(option))
+            {
+                Items.Remove(option);
+            }
         }
+
     }
 }

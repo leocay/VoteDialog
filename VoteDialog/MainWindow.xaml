@@ -2,14 +2,28 @@
     x:Class="VoteDialog.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:buttonDesign="clr-namespace:VoteDialog.Themes.Button"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:fa="https://dsaladin.dev/products/fontawesome/wpf/xaml"
     xmlns:local="clr-namespace:VoteDialog"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:textBoxDesign="clr-namespace:VoteDialog.Themes.TextBox"
     Title="MainWindow"
     Width="950"
     Height="450"
+    MinWidth="800"
+    MinHeight="450"
     SizeToContent="Height"
     mc:Ignorable="d">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Themes/DesignStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -61,7 +75,7 @@
 
         <Grid Grid.Row="2" Grid.Column="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="3*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
@@ -83,15 +97,79 @@
                 FontSize="15"
                 Text="Thời gian bình chọn" />
 
-            <DatePicker
-                HorizontalContentAlignment="Center"
-                VerticalContentAlignment="Center"
-                HorizontalAlignment="Left"
+            <StackPanel
                 Grid.Row="1"
-                Width="110"
-                Margin="5,0,0,0"
-                SelectedDate="{Binding SelectedDate, Mode=TwoWay}"
-                Style="{DynamicResource CommondDatePicker}" />
+                Grid.ColumnSpan="2"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
+                <DatePicker
+                    Margin="5,0,0,0"
+                    BorderThickness="0"
+                    SelectedDate="{x:Static sys:DateTime.Now}" />
+
+                <ComboBox
+                    x:Name="ComboBoxSTime"
+                    Grid.Column="1"
+                    Width="50"
+                    Margin="10,0,0,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    IsEditable="true"
+                    ItemsSource="{Binding Hours, Mode=TwoWay}"
+                    SelectedItem="{Binding StartHour, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    SelectedValuePath="Tag">
+
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <Label
+                                Content="{Binding}"
+                                FontFamily="{StaticResource CustomFont}"
+                                FontSize="16" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+
+                <Label
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Margin="0,0,0,0"
+                    HorizontalAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Content="Giờ"
+                    FontFamily="{StaticResource CustomFont}"
+                    FontSize="15" />
+
+                <ComboBox
+                    Grid.Column="3"
+                    Width="50"
+                    Margin="0,0,0,0"
+                    IsEditable="true"
+                    ItemsSource="{Binding Minutes, Mode=TwoWay}"
+                    SelectedItem="{Binding StartMinute, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    SelectedValuePath="Tag">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <Label
+                                Content="{Binding}"
+                                FontFamily="{StaticResource CustomFont}"
+                                FontSize="16" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+
+                <Label
+                    Grid.Column="2"
+                    Margin="0,0,0,0"
+                    HorizontalAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Content="Phút"
+                    FontFamily="{StaticResource CustomFont}"
+                    FontSize="15" />
+
+
+            </StackPanel>
+
 
             <TextBlock
                 Grid.Row="2"
@@ -151,19 +229,23 @@
                     <RowDefinition Height="80" />
                 </Grid.RowDefinitions>
 
-                <TextBlock
-                    Grid.Row="0"
-                    Margin="10,5,0,0"
-                    FontFamily="Times New Roman"
-                    FontSize="15"
-                    Text="Chủ đề bình chọn" />
 
                 <TextBox
-                    Grid.Row="1"
-                    Margin="10,5,10,0"
-                    VerticalAlignment="Stretch"
-                    FontFamily="Times New Roman"
-                    FontSize="15" />
+                    Height="100"
+                    Margin="0,0,5,0"
+                    VerticalContentAlignment="Top"
+                    textBoxDesign:HintAssist.Hint="Đặt câu hỏi bình chọn"
+                    textBoxDesign:TitleAssist.FontSize="16"
+                    textBoxDesign:TitleAssist.Title="Chủ đề bình chọn"
+                    AcceptsReturn="True"
+                    BorderThickness="0.5"
+                    FontFamily="{StaticResource CustomFont}"
+                    FontSize="15"
+                    HorizontalScrollBarVisibility="Disabled"
+                    Style="{DynamicResource TextBoxWithOutLineHintTitle}"
+                    TextWrapping="Wrap"
+                    VerticalScrollBarVisibility="Auto" />
+
             </Grid>
 
             <Grid Grid.Row="1" Grid.Column="0">
@@ -179,7 +261,7 @@
                     FontFamily="Times New Roman"
                     FontSize="15"
                     Text="Các lựa chọn" />
-                <ListView
+                <!--<ListView
                     Grid.Row="1"
                     Margin="10,0,10,10"
                     Background="Transparent"
@@ -212,19 +294,165 @@
                             <local:MyCustomTextBox Margin="0,5,0,5" Text="{Binding Text, Mode=TwoWay}" />
                         </DataTemplate>
                     </ListView.ItemTemplate>
+                </ListView>-->
+
+                <ListView
+                    VerticalAlignment="Top"
+                    Grid.Row="1"
+                    Height="200"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    FocusVisualStyle="{x:Null}"
+                    ItemsSource="{Binding Items}"
+                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                    ScrollViewer.VerticalScrollBarVisibility="Auto">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="Background" Value="Transparent" />
+                            <Setter Property="BorderBrush" Value="Transparent" />
+                            <Setter Property="BorderThickness" Value="0" />
+                            <Setter Property="Padding" Value="0" />
+                            <Setter Property="Margin" Value="0,5,0,0" />
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ListViewItem">
+                                        <Border Background="Transparent">
+                                            <ContentPresenter />
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid x:Name="ItemContainer">
+                                <TextBox
+                                    Grid.Row="1"
+                                    Height="35"
+                                    Margin="0,0,5,0"
+                                    textBoxDesign:HintAssist.Hint="{Binding Hint}"
+                                    AcceptsReturn="True"
+                                    BorderBrush="DimGray"
+                                    BorderThickness="0.5"
+                                    FontFamily="{StaticResource CustomFont}"
+                                    FontSize="14"
+                                    Style="{StaticResource TextBoxWithOutLineHint}"
+                                    TextWrapping="Wrap" />
+
+                                <Button
+                                    x:Name="BtnRemove"
+                                    Margin="0,0,10,0"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    Command="{Binding DeleteCommand}"
+                                    CommandParameter="{Binding}"
+                                    FocusVisualStyle="{x:Null}">
+                                    <fa:FontAwesomeImage Height="10" Icon="SolidXmark" />
+                                    <Button.Style>
+                                        <Style TargetType="Button">
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="Button">
+                                                        <Grid>
+                                                            <Border
+                                                                Width="25"
+                                                                Height="25"
+                                                                Background="Azure"
+                                                                BorderThickness="0"
+                                                                CornerRadius="15">
+                                                                <Border.Effect>
+                                                                    <DropShadowEffect
+                                                                        BlurRadius="10"
+                                                                        Direction="320"
+                                                                        Opacity="0.5"
+                                                                        ShadowDepth="2"
+                                                                        Color="Gray" />
+                                                                </Border.Effect>
+                                                            </Border>
+                                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                        </Grid>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+                            </Grid>
+
+                            <DataTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="BtnRemove" Property="Visibility" Value="{Binding CanDelete}" />
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="False">
+                                    <Setter TargetName="BtnRemove" Property="Visibility" Value="Collapsed" />
+                                </Trigger>
+                            </DataTemplate.Triggers>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
                 </ListView>
 
                 <Button
                     Grid.Row="2"
-                    Width="100"
-                    Height="30"
-                    Margin="10"
+                    Width="150"
+                    Height="35"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Bottom"
                     HorizontalContentAlignment="Center"
                     VerticalContentAlignment="Center"
-                    Click="Button_Click_1"
-                    Content="+ Thêm lựa chọn" />
+                    Background="Transparent"
+                    Command="{Binding AddOptionCommand}"
+                    Content="+ Thêm lựa chọn"
+                    FontFamily="{StaticResource CustomFont}"
+                    FontSize="20"
+                    Foreground="Blue">
+
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border
+                                            x:Name="OutLine"
+                                            BorderThickness="0"
+                                            CornerRadius="5">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        </Border>
+
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="OutLine" Property="Background" Value="AliceBlue" />
+                                            </Trigger>
+                                            <Trigger Property="IsMouseOver" Value="False">
+                                                <Setter TargetName="OutLine" Property="Background" Value="Transparent" />
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter TargetName="OutLine" Property="LayoutTransform">
+                                                    <Setter.Value>
+                                                        <ScaleTransform ScaleX="0.9" ScaleY="0.9" />
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Trigger>
+
+                                            <Trigger Property="IsPressed" Value="False">
+                                                <Setter TargetName="OutLine" Property="LayoutTransform">
+                                                    <Setter.Value>
+                                                        <ScaleTransform ScaleX="1" ScaleY="1" />
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                </Button>
 
             </Grid>
         </Grid>
@@ -236,12 +464,24 @@
             Orientation="Horizontal">
             <Button
                 Width="100"
-                Margin="10"
-                Content="Hủy" />
+                Height="40"
+                Margin="0,0,10,0"
+                Background="#6b3bab"
+                Content="Hủy"
+                FontFamily="Times New Roman"
+                FontSize="18"
+                Foreground="White"
+                Style="{StaticResource ButtonWithCorner}" />
             <Button
-                Width="100"
-                Margin="10"
-                Content="Tạo bình chọn" />
+                Width="150"
+                Height="40"
+                Margin="10,0,0,0"
+                Background="#6b3bab"
+                Content="Tạo bình chọn"
+                FontFamily="Times New Roman"
+                FontSize="18"
+                Foreground="White"
+                Style="{StaticResource ButtonWithCorner}" />
         </StackPanel>
 
     </Grid>
