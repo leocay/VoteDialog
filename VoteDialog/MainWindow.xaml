@@ -229,10 +229,9 @@
                     <RowDefinition Height="80" />
                 </Grid.RowDefinitions>
 
-
                 <TextBox
                     Height="100"
-                    Margin="0,0,5,0"
+                    Margin="5,0,5,0"
                     VerticalContentAlignment="Top"
                     textBoxDesign:HintAssist.Hint="Đặt câu hỏi bình chọn"
                     textBoxDesign:TitleAssist.FontSize="16"
@@ -245,7 +244,6 @@
                     Style="{DynamicResource TextBoxWithOutLineHintTitle}"
                     TextWrapping="Wrap"
                     VerticalScrollBarVisibility="Auto" />
-
             </Grid>
 
             <Grid Grid.Row="1" Grid.Column="0">
@@ -257,7 +255,7 @@
 
                 <TextBlock
                     Grid.Row="0"
-                    Margin="10,0,0,0"
+                    Margin="5,0,0,0"
                     FontFamily="Times New Roman"
                     FontSize="15"
                     Text="Các lựa chọn" />
@@ -463,6 +461,7 @@
             HorizontalAlignment="Center"
             Orientation="Horizontal">
             <Button
+                buttonDesign:CornerAssist.Corner="10"
                 Width="100"
                 Height="40"
                 Margin="0,0,10,0"
@@ -473,6 +472,7 @@
                 Foreground="White"
                 Style="{StaticResource ButtonWithCorner}" />
             <Button
+                buttonDesign:CornerAssist.Corner="10"
                 Width="150"
                 Height="40"
                 Margin="10,0,0,0"

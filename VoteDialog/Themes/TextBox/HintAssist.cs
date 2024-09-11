@@ -24,6 +24,5 @@ namespace VoteDialog.Themes.TextBox
             obj.SetValue(HintProperty, value);
         }
 
-     
     }
 }

@@ -8,7 +8,6 @@
             <Setter.Value>
                 <ControlTemplate TargetType="TextBox">
                     <Grid>
-
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
@@ -95,6 +94,7 @@
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             CornerRadius="3" />
+                        
                         <ScrollViewer
                             x:Name="PART_ContentHost"
                             Margin="8,0,0,0"
@@ -112,12 +112,14 @@
                             Visibility="Collapsed" />
                     </Grid>
                     <ControlTemplate.Triggers>
+                        
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="Text" Value="" />
                             </MultiTrigger.Conditions>
                             <Setter TargetName="HintLabel" Property="Visibility" Value="Visible" />
                         </MultiTrigger>
+                        
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Foreground" Value="DimGray" />
                         </Trigger>
@@ -125,6 +127,7 @@
                         <Trigger Property="IsFocused" Value="True">
                             <Setter TargetName="OutLine" Property="BorderBrush" Value="#0000f7" />
                         </Trigger>
+                        
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
